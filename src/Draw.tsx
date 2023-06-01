@@ -105,6 +105,11 @@ export interface DrawProps {
   onPathsChange?: (paths: PathType[]) => any;
 
   /**
+   * Callback function when stroke change
+   */
+  onStrokeChange?: (x: number, y: number) => any;
+
+  /**
    * Height of the canvas
    */
   height?: number;
@@ -197,6 +202,7 @@ const Draw = forwardRef<DrawRef, DrawProps>(
       canvasStyle,
       buttonStyle,
       onPathsChange,
+      onStrokeChange,
       height = dimen.height - 80,
       width = dimen.width,
       brushPreview = 'stroke',
@@ -225,6 +231,7 @@ const Draw = forwardRef<DrawRef, DrawProps>(
       nativeEvent: { x, y },
     }: PanGestureHandlerGestureEvent) => {
       setPath((prev) => [...prev, [x, y]]);
+      onStrokeChange && onStrokeChange(x, y);
     };
 
     const focusCanvas = () => {
